@@ -896,7 +896,11 @@ class UIManager {
         const strategyBox = `
             <div class="strategy-box">
                 <i class="fas fa-lightbulb"></i>
-                <span>Metodo consigliato: <strong>${recommendedStrategy.charAt(0).toUpperCase() + recommendedStrategy.slice(1)}</strong></span>
+                <span>Metodo consigliato: <strong>$
+                    {typeof recommendedStrategy === 'string' && recommendedStrategy.length > 0
+                        ? (recommendedStrategy.charAt(0).toUpperCase() + recommendedStrategy.slice(1))
+                        : 'Nessuna strategia disponibile'}
+                </strong></span>
             </div>
         `;
 
