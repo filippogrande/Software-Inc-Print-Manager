@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printing Capacity Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-print"></i> Printing Capacity Manager</h1>
+                <p>Gestisci i tuoi contratti di stampa con intelligenza</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sezione Impostazioni -->
+            <div class="card">
+                <h2><i class="fas fa-cog"></i> Impostazioni Base</h2>
+                <div class="form-group">
+                    <label for="gameDate">Data e Ora di Gioco:</label>
+                    <div class="date-inputs">
+                        <select id="gameMonth" required>
+                            <option value="">Mese</option>
+                            <option value="01">Gennaio</option>
+                            <option value="02">Febbraio</option>
+                            <option value="03">Marzo</option>
+                            <option value="04">Aprile</option>
+                            <option value="05">Maggio</option>
+                            <option value="06">Giugno</option>
+                            <option value="07">Luglio</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Settembre</option>
+                            <option value="10">Ottobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Dicembre</option>
+                        </select>
+                        <select id="gameYear" required>
+                            <option value="">Anno</option>
+                        </select>
+                        <select id="gameHour" required>
+                            <option value="">Ora</option>
+                            <option value="00">00:00</option>
+                            <option value="01">01:00</option>
+                            <option value="02">02:00</option>
+                            <option value="03">03:00</option>
+                            <option value="04">04:00</option>
+                            <option value="05">05:00</option>
+                            <option value="06">06:00</option>
+                            <option value="07">07:00</option>
+                            <option value="08">08:00</option>
+                            <option value="09">09:00</option>
+                            <option value="10">10:00</option>
+                            <option value="11">11:00</option>
+                            <option value="12">12:00</option>
+                            <option value="13">13:00</option>
+                            <option value="14">14:00</option>
+                            <option value="15">15:00</option>
+                            <option value="16">16:00</option>
+                            <option value="17">17:00</option>
+                            <option value="18">18:00</option>
+                            <option value="19">19:00</option>
+                            <option value="20">20:00</option>
+                            <option value="21">21:00</option>
+                            <option value="22">22:00</option>
+                            <option value="23">23:00</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="printCapacity">Capacità di Stampa Massima:</label>
+                    <input type="number" id="printCapacity" min="1" placeholder="es. 1000" required>
+                </div>
+                <div class="button-group">
+                    <button id="saveSettings" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Salva Impostazioni
+                    </button>
+                    <button id="advanceMonth" class="btn btn-warning">
+                        <i class="fas fa-forward"></i> Avanza Mese
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sezione Gestione Dati -->
+            <div class="card">
+                <h2><i class="fas fa-database"></i> Gestione Dati</h2>
+                <p class="card-description">Esporta, importa o cancella i tuoi dati</p>            <div class="button-group">
+                <button id="exportData" class="btn btn-success">
+                    <i class="fas fa-download"></i> Esporta JSON
+                </button>
+                <button id="importData" class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Importa JSON
+                </button>
+                <button id="clearData" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Cancella Tutto
+                </button>
+                <button id="loadSampleData" class="btn btn-warning">
+                    <i class="fas fa-database"></i> Carica Dati di Esempio
+                </button>
+            </div>
+            </div>
+
+            <!-- Sezione Nuovo Contratto -->
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> Nuovo Contratto</h2>
+                <div id="feasibilityIndicator" class="feasibility-indicator hidden">
+                    <div class="indicator-content">
+                        <i class="fas fa-circle"></i>
+                        <span class="indicator-text">Inserisci i dati per vedere la fattibilità</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contractName">Nome Contratto:</label>
+                    <input type="text" id="contractName" placeholder="es. Gioco RPG Deluxe" required>
+                </div>
+                <div class="form-group">
+                    <label for="contractQuantity">Quantità da Stampare:</label>
+                    <input type="number" id="contractQuantity" min="1" placeholder="es. 500" required>
+                </div>
+                <div class="form-group">
+                    <label for="contractDeadline">Scadenza:</label>
+                    <div class="date-inputs">
+                        <select id="contractMonth" required>
+                            <option value="">Mese</option>
+                            <option value="01">Gennaio</option>
+                            <option value="02">Febbraio</option>
+                            <option value="03">Marzo</option>
+                            <option value="04">Aprile</option>
+                            <option value="05">Maggio</option>
+                            <option value="06">Giugno</option>
+                            <option value="07">Luglio</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Settembre</option>
+                            <option value="10">Ottobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Dicembre</option>
+                        </select>
+                        <select id="contractYear" required>
+                            <option value="">Anno</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contractPriority">Priorità:</label>
+                    <select id="contractPriority" required>
+                        <option value="normal">Normale</option>
+                        <option value="high">Alta</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button id="checkContract" class="btn btn-warning">
+                        <i class="fas fa-calculator"></i> Controlla Fattibilità
+                    </button>
+                    <button id="addContract" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Aggiungi Contratto
+                    </button>
+                </div>
+                <div class="button-group">
+                    <button id="loadSampleData" class="btn btn-info">
+                        <i class="fas fa-download"></i> Carica Dati di Esempio
+                    </button>
+                    <button id="debugPersistence" class="btn btn-secondary">
+                        <i class="fas fa-bug"></i> Debug Persistenza
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sezione Lista Contratti -->
+            <div class="card">
+                <h2><i class="fas fa-list"></i> Contratti Attivi</h2>
+                <div id="contractsList" class="contracts-list">
+                    <div class="no-contracts">
+                        <i class="fas fa-inbox"></i>
+                        <p>Nessun contratto attivo</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione Analisi -->
+            <div class="card analysis-card">
+                <h2><i class="fas fa-chart-line"></i> Analisi e Consigli</h2>
+                <div id="analysisResult" class="analysis-result">
+                    <div class="analysis-placeholder">
+                        <i class="fas fa-lightbulb"></i>
+                        <p>Configura le impostazioni e aggiungi contratti per vedere l'analisi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Moduli JavaScript (tutti i file JS devono essere ES6 modules, importati solo tramite <script type="module">) -->
+    <script type="module">
+        import PrintingCapacityApp from './js/PrintingCapacityApp.js';
+        let manager = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 DOM caricato');
+            try {
+                console.log('🔧 Inizializzazione PrintingCapacityApp...');
+                manager = new PrintingCapacityApp();
+                console.log('✅ PrintingCapacityApp inizializzata:', manager);
+                // window.printingApp = manager; // Decommenta solo se serve accesso globale
+            } catch (error) {
+                console.error('❌ Errore durante l\'inizializzazione:', error);
+            }
+            setTimeout(() => {
+                console.log('📋 Verifica manager globale:', typeof manager);
+                console.log('📋 Manager:', manager);
+                const checkButton = document.getElementById('checkContract');
+                const addButton = document.getElementById('addContract');
+                if (checkButton) {
+                    console.log('✅ Pulsante Controlla Fattibilità trovato');
+                } else {
+                    console.log('❌ Pulsante Controlla Fattibilità non trovato');
+                }
+                if (addButton) {
+                    console.log('✅ Pulsante Aggiungi Contratto trovato');
+                } else {
+                    console.log('❌ Pulsante Aggiungi Contratto non trovato');
+                }
+            }, 500);
+        });
+    </script>
+
+    <!--
+    Se hai bisogno di includere librerie legacy che non usano import/export,
+    puoi inserirle qui con <script src="..."></script> classico.
+    -->
+</body>
+</html>
