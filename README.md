@@ -1,86 +1,87 @@
-# 🖨️ Printing Capacity Manager
+# 🖨️ Printing Capacity Manager for Software Inc.
 
-Un'applicazione web per gestire contratti di stampa in un videogioco, sviluppata per ottimizzare la gestione della capacità di stampa e delle scadenze.
+A web support tool for managing print contracts in the game **Software Inc.**
+Designed to optimize print capacity management and contract deadlines within the gameplay.
 
-## 🎯 Funzionalità
+## 🎯 Features
 
-### 📊 Gestione Contratti
+### 📊 Contract Management
 
-- **Aggiunta contratti**: Nome, quantità, scadenza
-- **Sistema di priorità**: Contratti ad alta/normale priorità
-- **Completamento contratti**: Segna come completati prima della scadenza
-- **Rimozione contratti**: Elimina contratti non più necessari
+- **Add contracts**: Name, quantity, deadline
+- **Priority system**: High/normal priority contracts
+- **Complete contracts**: Mark as completed before the deadline
+- **Remove contracts**: Delete contracts no longer needed
 
-### 🧮 Analisi Intelligente
+### 🧮 Smart Analysis
 
-- **Calcolo fattibilità**: Determina se tutti i contratti sono completabili
-- **Utilizzo capacità**: Mostra la percentuale di capacità utilizzata
-- **Raccomandazioni**: Suggerimenti strategici personalizzati
-- **Analisi priorità**: Valuta la completabilità dei contratti prioritari
+- **Feasibility calculation**: Determines if all contracts can be completed
+- **Capacity usage**: Shows the percentage of used print capacity
+- **Recommendations**: Personalized strategic suggestions
+- **Priority analysis**: Evaluates the feasibility of high-priority contracts
 
-### 💾 Gestione Dati
+### 💾 Data Management
 
-- **Salvataggio automatico**: I dati vengono salvati nel localStorage
-- **Esportazione JSON**: Scarica backup dei tuoi dati
-- **Importazione JSON**: Carica dati da file precedenti
-- **Cancellazione sicura**: Rimuovi tutti i dati con conferma
+- **Auto-save**: Data is saved in localStorage
+- **JSON export**: Download a backup of your data
+- **JSON import**: Load data from previous files
+- **Safe deletion**: Remove all data with confirmation
 
-## 🚀 Come Usare
+## 🚀 How to Use
 
-### Avvio Rapido
+### Quick Start
 
-1. **Avvia il server**:
+1. **Start the server**:
    ```bash
    python3 server.py
    ```
-2. **Apri il browser** su: `http://localhost:8000`
-3. **Configura le impostazioni**:
-   - Data di gioco (mese/anno)
-   - Capacità di stampa massima
-4. **Aggiungi contratti** e **visualizza l'analisi**
+2. **Open your browser** at: `http://localhost:8000`
+3. **Configure settings**:
+   - Game date (month/year)
+   - Maximum print capacity
+4. **Add contracts** and **view the analysis**
 
-### Workflow Consigliato
+### Recommended Workflow
 
-1. 🔧 **Configura** le impostazioni base
-2. ➕ **Aggiungi** i tuoi contratti
-3. ⭐ **Assegna priorità** ai contratti più importanti
-4. 📊 **Analizza** le raccomandazioni
-5. ✅ **Completa** i contratti finiti
-6. 💾 **Esporta** i dati come backup
+1. 🔧 **Configure** the basic settings
+2. ➕ **Add** your contracts
+3. ⭐ **Assign priority** to the most important contracts
+4. 📊 **Analyze** the recommendations
+5. ✅ **Complete** finished contracts
+6. 💾 **Export** your data as a backup
 
-## 🛠️ Tecnologie Utilizzate
+## 🛠️ Technologies Used
 
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
 - **Styling**: CSS Grid, Flexbox, Custom Properties
-- **Icone**: Font Awesome
+- **Icons**: Font Awesome
 - **Font**: Inter (Google Fonts)
-- **Salvataggio**: localStorage + JSON Export/Import
-- **Server**: Python HTTP Server (per testing locale)
+- **Storage**: localStorage + JSON Export/Import
+- **Server**: Python HTTP Server (for local testing)
 
-## 📋 Struttura del Progetto
+## 📋 Project Structure
 
 ```
 Printing-capacity/
-├── index.html          # Pagina principale
-├── style.css           # Stili CSS
-├── script.js           # Logica JavaScript
-├── server.py           # Server HTTP locale
-└── README.md           # Documentazione
+├── index.html          # Main page
+├── style.css           # CSS styles
+├── script.js           # JavaScript logic
+├── server.py           # Local HTTP server
+└── README.md           # Documentation
 ```
 
-## 🎨 Caratteristiche del Design
+## 🎨 Design Features
 
-- **🎯 Design moderno**: Interfaccia pulita e intuitiva
-- **📱 Responsive**: Funziona su desktop e mobile
-- **🎭 Animazioni fluide**: Transizioni ed effetti hover
-- **🌈 Sistema di colori**: Palette coerente e accessibile
-- **💡 Feedback visivo**: Notifiche e indicatori di stato
+- **🎯 Modern design**: Clean and intuitive interface
+- **📱 Responsive**: Works on desktop and mobile
+- **🎭 Smooth animations**: Transitions and hover effects
+- **🌈 Color system**: Consistent and accessible palette
+- **💡 Visual feedback**: Notifications and status indicators
 
-## 🔧 Personalizzazione
+## 🔧 Customization
 
-### Modificare i colori
+### Change colors
 
-Modifica le variabili CSS in `style.css`:
+Edit the CSS variables in `style.css`:
 
 ```css
 :root {
@@ -91,35 +92,35 @@ Modifica le variabili CSS in `style.css`:
 }
 ```
 
-### Aggiungere nuove funzionalità
+### Add new features
 
-1. Modifica `script.js` per la logica
-2. Aggiorna `index.html` per l'interfaccia
-3. Aggiungi stili in `style.css`
+1. Edit `script.js` for logic
+2. Update `index.html` for the interface
+3. Add styles in `style.css`
 
 ## 🚀 Deployment
 
-### Hosting Locale
+### Local Hosting
 
 ```bash
 python3 server.py
 ```
 
-### Hosting Web
+### Web Hosting
 
-1. Carica `index.html`, `style.css`, `script.js` sul tuo server
-2. Configura il server per servire file statici
-3. Assicurati che il MIME type per `.json` sia configurato
+1. Upload `index.html`, `style.css`, `script.js` to your server
+2. Configure the server to serve static files
+3. Make sure the MIME type for `.json` is set
 
 ## 🐛 Troubleshooting
 
-### Problemi comuni:
+### Common issues:
 
-- **Porta occupata**: Cambia la porta in `server.py`
-- **Dati non salvati**: Controlla che localStorage sia abilitato
-- **File JSON non importato**: Verifica che il file abbia la struttura corretta
+- **Port in use**: Change the port in `server.py`
+- **Data not saved**: Check that localStorage is enabled
+- **JSON file not imported**: Make sure the file has the correct structure
 
-### Struttura JSON valida:
+### Valid JSON structure:
 
 ```json
 {
@@ -128,7 +129,7 @@ python3 server.py
   "contracts": [
     {
       "id": 1720094400000,
-      "name": "Contratto Test",
+      "name": "Test Contract",
       "quantity": 500,
       "deadline": "2025-12",
       "priority": "normal"
@@ -137,27 +138,27 @@ python3 server.py
 }
 ```
 
-## 🤝 Contribuire
+## 🤝 Contributing
 
-1. Fork del repository
-2. Crea un branch per la tua feature
-3. Commit delle modifiche
-4. Push al branch
-5. Apri una Pull Request
+1. Fork the repository
+2. Create a branch for your feature
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-## 📄 Licenza
+## 📄 License
 
-Questo progetto è rilasciato sotto licenza MIT.
+This project is released under the MIT license.
 
 ## 🎮 Gaming Context
 
-Questo tool è stato sviluppato specificamente per gestire contratti di stampa in videogiochi dove:
+This tool was developed specifically to manage print contracts in games like Software Inc. where:
 
-- Hai una capacità di stampa limitata per mese
-- Devi accettare contratti con scadenze diverse
-- Puoi scegliere se dividere la capacità o concentrarla su singoli contratti
-- Hai bisogno di ottimizzare la gestione per massimizzare i profitti
+- You have a limited print capacity per month
+- You must accept contracts with different deadlines
+- You can choose whether to split capacity or focus on single contracts
+- You need to optimize management to maximize profits
 
 ---
 
-**Buon gaming e buona gestione dei contratti!** 🎮🖨️
+**Happy gaming and contract management!** 🎮🖨️
