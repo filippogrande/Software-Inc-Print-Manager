@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Contratti e Analisi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        .contracts-display {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .analysis-display {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Contratti e Analisi</h1>
+        
+        <div class="section">
+            <h2>📊 Status Applicazione</h2>
+            <div id="appStatus" class="status warning">⏳ Inizializzazione...</div>
+            <button class="btn" onclick="initializeApp()">Inizializza App</button>
+            <button class="btn" onclick="setupDefaultSettings()">Configura Impostazioni Default</button>
+        </div>
+
+        <div class="section">
+            <h2>📋 Gestione Contratti</h2>
+            <button class="btn btn-success" onclick="addTestContract()">Aggiungi Contratto Test</button>
+            <button class="btn btn-warning" onclick="addMultipleContracts()">Aggiungi Contratti Multipli</button>
+            <button class="btn" onclick="listContracts()">Mostra Contratti</button>
+            <button class="btn btn-danger" onclick="clearAllContracts()">Cancella Tutti i Contratti</button>
+            
+            <div id="contractsDisplay" class="contracts-display" style="display: none;">
+                <h3>📋 Contratti Attivi</h3>
+                <div id="contractsList"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Analisi e Consigli</h2>
+            <button class="btn" onclick="updateAnalysis()">Aggiorna Analisi</button>
+            <button class="btn" onclick="showAnalysisDetails()">Mostra Dettagli Analisi</button>
+            
+            <div id="analysisDisplay" class="analysis-display" style="display: none;">
+                <h3>📊 Risultati Analisi</h3>
+                <div id="analysisContent"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 Debug e Log</h2>
+            <button class="btn" onclick="clearLog()">Pulisci Log</button>
+            <button class="btn" onclick="debugData()">Debug Dati</button>
+            <div id="testLog" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Carica tutti i moduli JavaScript -->
+    <script src="js/timeManager.js"></script>
+    <script src="js/contractManager.js"></script>
+    <script src="js/productionManager.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/analysisManager.js"></script>
+    <script src="js/dataManager.js"></script>
+    <script src="js/settingsManager.js"></script>
+    <script src="js/eventManager.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        let manager = null;
+        let testLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            testLog.push(logMessage);
+            document.getElementById('testLog').textContent = testLog.join('\n');
+            console.log(logMessage);
+        }
+        
+        function clearLog() {
+            testLog = [];
+            document.getElementById('testLog').textContent = '';
+        }
+        
+        function updateStatus(message, type = 'warning') {
+            const statusEl = document.getElementById('appStatus');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function initializeApp() {
+            log('🚀 Inizializzazione applicazione...');
+            
+            try {
+                manager = new PrintingCapacityApp();
+                log('✅ PrintingCapacityApp inizializzata');
+                updateStatus('✅ Applicazione inizializzata', 'success');
+                return true;
+                
+            } catch (error) {
+                log(`❌ Errore: ${error.message}`);
+                updateStatus(`❌ Errore: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        function setupDefaultSettings() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('⚙️ Configurazione impostazioni default...');
+            
+            try {
+                // Imposta direttamente i valori nel manager
+                manager.gameDate = '2025-07';
+                manager.gameHour = 14;
+                manager.printCapacity = 1000;
+                
+                log('✅ Impostazioni configurate:');
+                log(`   Data: ${manager.gameDate}`);
+                log(`   Ora: ${manager.gameHour}:00`);
+                log(`   Capacità: ${manager.printCapacity}`);
+                
+                updateStatus('✅ Impostazioni configurate', 'success');
+                
+            } catch (error) {
+                log(`❌ Errore configurazione: ${error.message}`);
+            }
+        }
+        
+        function addTestContract() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('➕ Aggiunta contratto test...');
+            
+            try {
+                const testContract = {
+                    name: 'Contratto Test Analisi',
+                    quantity: 800,
+                    deadline: '2025-09',
+                    priority: 'normal',
+                    completed: 0
+                };
+                
+                const addedContract = manager.contractManager.addContract(testContract);
+                log(`✅ Contratto aggiunto: ID ${addedContract.id}`);
+                log(`   Nome: ${addedContract.name}`);
+                log(`   Quantità: ${addedContract.quantity}`);
+                log(`   Scadenza: ${addedContract.deadline}`);
+                
+                // Aggiorna display
+                manager.updateDisplay();
+                updateAnalysis();
+                
+            } catch (error) {
+                log(`❌ Errore aggiunta contratto: ${error.message}`);
+            }
+        }
+        
+        function addMultipleContracts() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('➕ Aggiunta contratti multipli...');
+            
+            const contracts = [
+                {
+                    name: 'Progetto Urgente',
+                    quantity: 600,
+                    deadline: '2025-08',
+                    priority: 'high',
+                    completed: 0
+                },
+                {
+                    name: 'Stampa Normale',
+                    quantity: 1200,
+                    deadline: '2025-10',
+                    priority: 'normal',
+                    completed: 0
+                },
+                {
+                    name: 'Progetto Grande',
+                    quantity: 2000,
+                    deadline: '2025-11',
+                    priority: 'normal',
+                    completed: 0
+                }
+            ];
+            
+            try {
+                contracts.forEach((contract, index) => {
+                    const added = manager.contractManager.addContract(contract);
+                    log(`✅ Contratto ${index + 1} aggiunto: ${added.name}`);
+                });
+                
+                // Aggiorna display
+                manager.updateDisplay();
+                updateAnalysis();
+                
+                log('✅ Tutti i contratti aggiunti');
+                
+            } catch (error) {
+                log(`❌ Errore aggiunta contratti: ${error.message}`);
+            }
+        }
+        
+        function listContracts() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('📋 Lista contratti...');
+            
+            try {
+                const contracts = manager.contractManager.getContracts();
+                log(`📊 Totale contratti: ${contracts.length}`);
+                
+                if (contracts.length === 0) {
+                    log('📋 Nessun contratto presente');
+                    document.getElementById('contractsDisplay').style.display = 'none';
+                    return;
+                }
+                
+                let html = '';
+                contracts.forEach((contract, index) => {
+                    html += `
+                        <div style="border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 4px;">
+                            <strong>${contract.name}</strong><br>
+                            Quantità: ${contract.quantity.toLocaleString()}<br>
+                            Completato: ${contract.completed}/${contract.quantity}<br>
+                            Scadenza: ${contract.deadline}<br>
+                            Priorità: ${contract.priority}
+                        </div>
+                    `;
+                    log(`   ${index + 1}. ${contract.name} - ${contract.quantity} copie - ${contract.deadline}`);
+                });
+                
+                document.getElementById('contractsList').innerHTML = html;
+                document.getElementById('contractsDisplay').style.display = 'block';
+                
+            } catch (error) {
+                log(`❌ Errore lista contratti: ${error.message}`);
+            }
+        }
+        
+        function clearAllContracts() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('🗑️ Cancellazione tutti i contratti...');
+            
+            try {
+                manager.contractManager.clearContracts();
+                log('✅ Tutti i contratti cancellati');
+                
+                // Aggiorna display
+                manager.updateDisplay();
+                updateAnalysis();
+                
+                document.getElementById('contractsDisplay').style.display = 'none';
+                document.getElementById('analysisDisplay').style.display = 'none';
+                
+            } catch (error) {
+                log(`❌ Errore cancellazione: ${error.message}`);
+            }
+        }
+        
+        function updateAnalysis() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('📊 Aggiornamento analisi...');
+            
+            try {
+                if (!manager.gameDate || !manager.printCapacity) {
+                    log('❌ Impostazioni non configurate');
+                    return;
+                }
+                
+                const contracts = manager.contractManager.getContracts();
+                log(`📋 Analisi per ${contracts.length} contratti`);
+                
+                if (contracts.length === 0) {
+                    log('📊 Nessun contratto per analisi');
+                    document.getElementById('analysisDisplay').style.display = 'none';
+                    return;
+                }
+                
+                const analysis = manager.analysisManager.calculateAnalysis(
+                    contracts,
+                    manager.gameDate,
+                    manager.printCapacity
+                );
+                
+                log('✅ Analisi calcolata');
+                log(`   Raccomandazione: ${analysis.recommendation}`);
+                log(`   Fattibilità: ${analysis.feasible ? 'Sì' : 'No'}`);
+                
+                showAnalysisDetails();
+                
+            } catch (error) {
+                log(`❌ Errore analisi: ${error.message}`);
+            }
+        }
+        
+        function showAnalysisDetails() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            try {
+                const contracts = manager.contractManager.getContracts();
+                
+                if (contracts.length === 0) {
+                    document.getElementById('analysisContent').innerHTML = 
+                        '<p><strong>Nessun contratto attivo</strong></p><p>Aggiungi dei contratti per vedere l\'analisi.</p>';
+                    document.getElementById('analysisDisplay').style.display = 'block';
+                    return;
+                }
+                
+                const analysis = manager.analysisManager.calculateAnalysis(
+                    contracts,
+                    manager.gameDate,
+                    manager.printCapacity
+                );
+                
+                let html = `
+                    <p><strong>Raccomandazione:</strong> ${analysis.recommendation}</p>
+                    <p><strong>Fattibilità Generale:</strong> ${analysis.feasible ? '✅ Fattibile' : '❌ Non Fattibile'}</p>
+                    <p><strong>Capacità Disponibile:</strong> ${manager.printCapacity.toLocaleString()} copie/mese</p>
+                    <p><strong>Data Corrente:</strong> ${manager.gameDate}</p>
+                `;
+                
+                if (analysis.schedule && analysis.schedule.length > 0) {
+                    html += '<h4>📅 Schedulazione:</h4>';
+                    analysis.schedule.forEach(month => {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px;">
+                                <strong>${month.monthName}</strong><br>
+                                Produzione: ${month.production.toLocaleString()} copie<br>
+                                Carico: ${month.load}%<br>
+                                ${month.feasible ? '✅' : '❌'} ${month.feasible ? 'Fattibile' : 'Sovraccarico'}
+                            </div>
+                        `;
+                    });
+                }
+                
+                document.getElementById('analysisContent').innerHTML = html;
+                document.getElementById('analysisDisplay').style.display = 'block';
+                
+                log('✅ Dettagli analisi mostrati');
+                
+            } catch (error) {
+                log(`❌ Errore dettagli analisi: ${error.message}`);
+            }
+        }
+        
+        function debugData() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return;
+            }
+            
+            log('🔍 Debug dati applicazione...');
+            log(`📅 Game Date: ${manager.gameDate}`);
+            log(`🕐 Game Hour: ${manager.gameHour}`);
+            log(`🖨️ Print Capacity: ${manager.printCapacity}`);
+            
+            const contracts = manager.contractManager.getContracts();
+            log(`📋 Contratti totali: ${contracts.length}`);
+            
+            contracts.forEach((contract, index) => {
+                log(`   ${index + 1}. ${contract.name} - ${contract.quantity} copie - ${contract.deadline}`);
+            });
+        }
+        
+        // Inizializzazione automatica
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Pagina caricata');
+            
+            setTimeout(() => {
+                initializeApp();
+                setupDefaultSettings();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

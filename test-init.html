@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Inizializzazione Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            margin: 4px 0;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Test Inizializzazione Manager</h1>
+        
+        <h2>📊 Status JavaScript Classes:</h2>
+        <div id="classStatus"></div>
+        
+        <h2>🔘 Status Pulsanti:</h2>
+        <div id="buttonStatus"></div>
+        
+        <h2>👨‍💼 Manager Instance:</h2>
+        <div id="managerStatus"></div>
+        
+        <div>
+            <button class="button" onclick="testClassesExist()">Test Classi</button>
+            <button class="button" onclick="testButtonsExist()">Test Pulsanti</button>
+            <button class="button" onclick="testManagerInit()">Test Manager</button>
+            <button class="button" onclick="clearLog()">Pulisci Log</button>
+        </div>
+        
+        <!-- Mock buttons for testing (hidden) -->
+        <div style="display: none;">
+            <button id="saveSettings">Mock Save Settings</button>
+            <button id="checkContract">Mock Check Contract</button>
+            <button id="addContract">Mock Add Contract</button>
+        </div>
+        
+        <div id="log" class="log"></div>
+    </div>
+
+    <!-- Carica tutte le classi JavaScript -->
+    <script src="js/timeManager.js"></script>
+    <script src="js/contractManager.js"></script>
+    <script src="js/productionManager.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/analysisManager.js"></script>
+    <script src="js/dataManager.js"></script>
+    <script src="js/settingsManager.js"></script>
+    <script src="js/eventManager.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        let testLog = [];
+        let testManager = null;
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            testLog.push(logMessage);
+            document.getElementById('log').textContent = testLog.join('\n');
+            console.log(logMessage);
+        }
+        
+        function clearLog() {
+            testLog = [];
+            document.getElementById('log').textContent = '';
+        }
+        
+        function createStatus(name, isSuccess) {
+            const statusClass = isSuccess ? 'success' : 'error';
+            const icon = isSuccess ? '✅' : '❌';
+            return `<div class="status ${statusClass}">${name}: ${icon}</div>`;
+        }
+        
+        function testClassesExist() {
+            log('🔍 Testing JavaScript Classes...');
+            
+            const classes = [
+                'TimeManager',
+                'ContractManager', 
+                'ProductionManager',
+                'UIManager',
+                'AnalysisManager',
+                'DataManager',
+                'SettingsManager',
+                'EventManager',
+                'PrintingCapacityApp'
+            ];
+            
+            let html = '';
+            let allSuccess = true;
+            
+            classes.forEach(className => {
+                const exists = typeof window[className] === 'function';
+                html += createStatus(className, exists);
+                
+                if (exists) {
+                    log(`✅ ${className} caricata correttamente`);
+                } else {
+                    log(`❌ ${className} non trovata`);
+                    allSuccess = false;
+                }
+            });
+            
+            document.getElementById('classStatus').innerHTML = html;
+            log(`📊 Test classi completato: ${allSuccess ? 'SUCCESSO' : 'FALLITO'}`);
+        }
+        
+        function testButtonsExist() {
+            log('🔘 Testing Buttons...');
+            
+            const buttons = [
+                'saveSettings',
+                'checkContract', 
+                'addContract'
+            ];
+            
+            let html = '';
+            let allSuccess = true;
+            
+            buttons.forEach(buttonId => {
+                const exists = document.getElementById(buttonId) !== null;
+                html += createStatus(buttonId, exists);
+                
+                if (exists) {
+                    log(`✅ Pulsante ${buttonId} trovato`);
+                } else {
+                    log(`❌ Pulsante ${buttonId} non trovato`);
+                    allSuccess = false;
+                }
+            });
+            
+            document.getElementById('buttonStatus').innerHTML = html;
+            log(`🔘 Test pulsanti completato: ${allSuccess ? 'SUCCESSO' : 'FALLITO'}`);
+        }
+        
+        function testManagerInit() {
+            log('👨‍💼 Testing Manager Initialization...');
+            
+            try {
+                if (typeof PrintingCapacityApp !== 'function') {
+                    throw new Error('PrintingCapacityApp non è disponibile');
+                }
+                
+                log('🔧 Creazione istanza PrintingCapacityApp...');
+                testManager = new PrintingCapacityApp();
+                
+                log('✅ Manager creato con successo');
+                log(`📋 Manager type: ${typeof testManager}`);
+                log(`📋 Manager constructor: ${testManager.constructor.name}`);
+                
+                // Test dei metodi principali
+                const methods = ['addContract', 'checkContractFeasibility', 'saveSettings'];
+                methods.forEach(method => {
+                    if (typeof testManager[method] === 'function') {
+                        log(`✅ Metodo ${method} disponibile`);
+                    } else {
+                        log(`❌ Metodo ${method} non disponibile`);
+                    }
+                });
+                
+                document.getElementById('managerStatus').innerHTML = createStatus('manager', true);
+                log('👨‍💼 Test manager completato: SUCCESSO');
+                
+            } catch (error) {
+                log(`❌ Errore durante inizializzazione: ${error.message}`);
+                document.getElementById('managerStatus').innerHTML = createStatus('manager', false);
+                log('👨‍💼 Test manager completato: FALLITO');
+            }
+        }
+        
+        // Esegui i test automaticamente quando la pagina è caricata
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Pagina caricata, esecuzione test automatici...');
+            setTimeout(() => {
+                testClassesExist();
+                testButtonsExist();
+                testManagerInit();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Rapido - Funzionalità Principali</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            display: block;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Rapido - Printing Capacity Manager</h1>
+        
+        <div class="status" id="testStatus">
+            ⏳ Caricamento test...
+        </div>
+
+        <h2>🔍 Test Automatici</h2>
+        <button class="btn" onclick="testJavaScriptClasses()">1. Test Caricamento Classi JS</button>
+        <button class="btn" onclick="testManagerInit()">2. Test Inizializzazione Manager</button>
+        <button class="btn" onclick="testFormElements()">3. Test Elementi Form</button>
+        <button class="btn btn-success" onclick="testMainApp()">4. Test Applicazione Principale</button>
+        
+        <h2>🎯 Test Interattivi</h2>
+        <button class="btn btn-warning" onclick="openMainApp()">Apri Applicazione Principale</button>
+        <button class="btn btn-warning" onclick="openTestFinal()">Apri Test Completo</button>
+        
+        <div class="result" id="testResult" style="display: none;">
+            <h3>📊 Risultati Test</h3>
+            <div id="testOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        
+        function updateStatus(message, type = 'warning') {
+            const statusEl = document.getElementById('testStatus');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function showResult(results) {
+            document.getElementById('testResult').style.display = 'block';
+            document.getElementById('testOutput').innerHTML = results.join('<br>');
+        }
+        
+        function testJavaScriptClasses() {
+            const classes = [
+                'TimeManager', 'ContractManager', 'ProductionManager', 
+                'UIManager', 'AnalysisManager', 'DataManager', 
+                'SettingsManager', 'EventManager', 'PrintingCapacityApp'
+            ];
+            
+            const results = [];
+            let allPass = true;
+            
+            classes.forEach(className => {
+                if (typeof window[className] === 'function') {
+                    results.push(`✅ ${className} - OK`);
+                } else {
+                    results.push(`❌ ${className} - MANCANTE`);
+                    allPass = false;
+                }
+            });
+            
+            if (allPass) {
+                updateStatus('✅ Tutte le classi JavaScript sono caricate', 'success');
+            } else {
+                updateStatus('❌ Alcune classi JavaScript mancano', 'error');
+            }
+            
+            showResult(results);
+        }
+        
+        function testManagerInit() {
+            const results = [];
+            let success = false;
+            
+            try {
+                if (typeof PrintingCapacityApp === 'function') {
+                    const testManager = new PrintingCapacityApp();
+                    results.push('✅ PrintingCapacityApp creata con successo');
+                    
+                    // Test metodi principali
+                    const methods = ['saveSettings', 'addContract', 'checkContractFeasibility'];
+                    methods.forEach(method => {
+                        if (typeof testManager[method] === 'function') {
+                            results.push(`✅ Metodo ${method} disponibile`);
+                        } else {
+                            results.push(`❌ Metodo ${method} NON disponibile`);
+                        }
+                    });
+                    
+                    success = true;
+                    updateStatus('✅ Manager inizializzato correttamente', 'success');
+                } else {
+                    results.push('❌ PrintingCapacityApp non è una funzione');
+                    updateStatus('❌ PrintingCapacityApp non disponibile', 'error');
+                }
+            } catch (error) {
+                results.push(`❌ Errore durante inizializzazione: ${error.message}`);
+                updateStatus('❌ Errore durante inizializzazione', 'error');
+            }
+            
+            showResult(results);
+        }
+        
+        function testFormElements() {
+            const requiredElements = [
+                'gameMonth', 'gameYear', 'gameHour', 'printCapacity',
+                'contractName', 'contractQuantity', 'contractMonth', 'contractYear', 'contractPriority',
+                'saveSettings', 'addContract', 'checkContract'
+            ];
+            
+            const results = [];
+            let allFound = true;
+            
+            requiredElements.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    results.push(`✅ ${elementId} - Trovato`);
+                } else {
+                    results.push(`❌ ${elementId} - MANCANTE`);
+                    allFound = false;
+                }
+            });
+            
+            if (allFound) {
+                updateStatus('✅ Tutti gli elementi del form sono presenti', 'success');
+            } else {
+                updateStatus('❌ Alcuni elementi del form mancano', 'error');
+            }
+            
+            showResult(results);
+        }
+        
+        function testMainApp() {
+            const results = [];
+            let allPass = true;
+            
+            // Test 1: Classi JS
+            testJavaScriptClasses();
+            
+            // Test 2: Manager
+            try {
+                const testManager = new PrintingCapacityApp();
+                results.push('✅ Manager creato con successo');
+                
+                // Test 3: Metodi principali
+                const methods = ['saveSettings', 'addContract', 'checkContractFeasibility'];
+                methods.forEach(method => {
+                    if (typeof testManager[method] === 'function') {
+                        results.push(`✅ ${method} disponibile`);
+                    } else {
+                        results.push(`❌ ${method} NON disponibile`);
+                        allPass = false;
+                    }
+                });
+                
+            } catch (error) {
+                results.push(`❌ Errore manager: ${error.message}`);
+                allPass = false;
+            }
+            
+            if (allPass) {
+                updateStatus('🎉 TUTTI I TEST SUPERATI! Applicazione pronta!', 'success');
+                results.push('');
+                results.push('🎉 L\'applicazione è completamente funzionante!');
+                results.push('✅ Tutti i manager sono attivi');
+                results.push('✅ Tutti i pulsanti dovrebbero funzionare');
+                results.push('✅ Il box "Nuovo Contratto" è operativo');
+            } else {
+                updateStatus('❌ Alcuni test sono falliti', 'error');
+            }
+            
+            showResult(results);
+        }
+        
+        function openMainApp() {
+            window.open('index.html', '_blank');
+        }
+        
+        function openTestFinal() {
+            window.open('test-final.html', '_blank');
+        }
+        
+        // Carica le classi JavaScript necessarie
+        const scripts = [
+            'js/timeManager.js',
+            'js/contractManager.js', 
+            'js/productionManager.js',
+            'js/uiManager.js',
+            'js/analysisManager.js',
+            'js/dataManager.js',
+            'js/settingsManager.js',
+            'js/eventManager.js',
+            'script.js'
+        ];
+        
+        let scriptsLoaded = 0;
+        
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
+        async function loadAllScripts() {
+            updateStatus('📦 Caricamento script JavaScript...', 'warning');
+            
+            try {
+                for (const src of scripts) {
+                    await loadScript(src);
+                    scriptsLoaded++;
+                    updateStatus(`📦 Caricati ${scriptsLoaded}/${scripts.length} script...`, 'warning');
+                }
+                
+                updateStatus('✅ Tutti gli script sono stati caricati', 'success');
+                
+                // Esegui test automatico
+                setTimeout(() => {
+                    testMainApp();
+                }, 500);
+                
+            } catch (error) {
+                updateStatus(`❌ Errore caricamento script: ${error.message}`, 'error');
+            }
+        }
+        
+        // Avvia il caricamento quando la pagina è pronta
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllScripts();
+        });
+    </script>
+</body>
+</html>

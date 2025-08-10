@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Finale - Applicazione Completa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-width: 200px;
+        }
+        .date-inputs {
+            display: flex;
+            gap: 10px;
+        }
+        .date-inputs select {
+            flex: 1;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        .contracts-list {
+            margin: 10px 0;
+        }
+        .no-contracts {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+        .analysis-result {
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .analysis-placeholder {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+        .feasibility-indicator {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .feasibility-indicator.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Finale - Printing Capacity Manager</h1>
+        
+        <div class="section">
+            <h2>📊 Status Manager</h2>
+            <div id="managerStatus" class="status warning">⏳ Inizializzazione in corso...</div>
+            <button class="btn" onclick="initializeApp()">Inizializza App</button>
+            <button class="btn" onclick="checkStatus()">Verifica Status</button>
+        </div>
+
+        <!-- Sezione Impostazioni (replica dell'originale) -->
+        <div class="section">
+            <h2><i class="fas fa-cog"></i> Impostazioni Base</h2>
+            <div class="form-group">
+                <label for="gameDate">Data e Ora di Gioco:</label>
+                <div class="date-inputs">
+                    <select id="gameMonth" required>
+                        <option value="">Mese</option>
+                        <option value="01">Gennaio</option>
+                        <option value="02">Febbraio</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Aprile</option>
+                        <option value="05">Maggio</option>
+                        <option value="06">Giugno</option>
+                        <option value="07">Luglio</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Settembre</option>
+                        <option value="10">Ottobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Dicembre</option>
+                    </select>
+                    <select id="gameYear" required>
+                        <option value="">Anno</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                    <select id="gameHour" required>
+                        <option value="">Ora</option>
+                        <option value="00">00:00</option>
+                        <option value="01">01:00</option>
+                        <option value="02">02:00</option>
+                        <option value="10">10:00</option>
+                        <option value="14">14:00</option>
+                        <option value="18">18:00</option>
+                        <option value="22">22:00</option>
+                        <option value="23">23:00</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="printCapacity">Capacità di Stampa Massima:</label>
+                <input type="number" id="printCapacity" min="1" placeholder="es. 1000" required>
+            </div>
+            <button id="saveSettings" class="btn btn-success">
+                <i class="fas fa-save"></i> Salva Impostazioni
+            </button>
+        </div>
+
+        <!-- Sezione Nuovo Contratto (replica dell'originale) -->
+        <div class="section">
+            <h2><i class="fas fa-plus-circle"></i> Nuovo Contratto</h2>
+            <div id="feasibilityIndicator" class="feasibility-indicator hidden">
+                <div class="indicator-content">
+                    <i class="fas fa-circle"></i>
+                    <span class="indicator-text">Inserisci i dati per vedere la fattibilità</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contractName">Nome Contratto:</label>
+                <input type="text" id="contractName" placeholder="es. Gioco RPG Deluxe" required>
+            </div>
+            <div class="form-group">
+                <label for="contractQuantity">Quantità da Stampare:</label>
+                <input type="number" id="contractQuantity" min="1" placeholder="es. 500" required>
+            </div>
+            <div class="form-group">
+                <label for="contractDeadline">Scadenza:</label>
+                <div class="date-inputs">
+                    <select id="contractMonth" required>
+                        <option value="">Mese</option>
+                        <option value="01">Gennaio</option>
+                        <option value="02">Febbraio</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Aprile</option>
+                        <option value="05">Maggio</option>
+                        <option value="06">Giugno</option>
+                        <option value="07">Luglio</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Settembre</option>
+                        <option value="10">Ottobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Dicembre</option>
+                    </select>
+                    <select id="contractYear" required>
+                        <option value="">Anno</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contractPriority">Priorità:</label>
+                <select id="contractPriority" required>
+                    <option value="normal">Normale</option>
+                    <option value="high">Alta</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button id="checkContract" class="btn btn-warning">
+                    <i class="fas fa-calculator"></i> Controlla Fattibilità
+                </button>
+                <button id="addContract" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Aggiungi Contratto
+                </button>
+            </div>
+        </div>
+
+        <!-- Sezione Lista Contratti (replica dell'originale) -->
+        <div class="section">
+            <h2><i class="fas fa-list"></i> Contratti Attivi</h2>
+            <div id="contractsList" class="contracts-list">
+                <div class="no-contracts">
+                    <i class="fas fa-inbox"></i>
+                    <p>Nessun contratto attivo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Analisi (replica dell'originale) -->
+        <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Analisi e Consigli</h2>
+            <div id="analysisResult" class="analysis-result">
+                <div class="analysis-placeholder">
+                    <i class="fas fa-lightbulb"></i>
+                    <p>Configura le impostazioni e aggiungi contratti per vedere l'analisi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log di Test -->
+        <div class="section">
+            <h2><i class="fas fa-bug"></i> Log di Test</h2>
+            <button class="btn" onclick="clearLog()">Pulisci Log</button>
+            <button class="btn btn-warning" onclick="testAll()">Esegui Tutti i Test</button>
+            <div id="testLog" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Carica tutti i moduli JavaScript -->
+    <script src="js/timeManager.js"></script>
+    <script src="js/contractManager.js"></script>
+    <script src="js/productionManager.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/analysisManager.js"></script>
+    <script src="js/dataManager.js"></script>
+    <script src="js/settingsManager.js"></script>
+    <script src="js/eventManager.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        let manager = null;
+        let testLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            testLog.push(logMessage);
+            document.getElementById('testLog').textContent = testLog.join('\n');
+            console.log(logMessage);
+        }
+        
+        function clearLog() {
+            testLog = [];
+            document.getElementById('testLog').textContent = '';
+        }
+        
+        function updateStatus(message, type = 'warning') {
+            const statusEl = document.getElementById('managerStatus');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function initializeApp() {
+            log('🚀 Inizializzazione applicazione...');
+            
+            try {
+                if (typeof PrintingCapacityApp !== 'function') {
+                    throw new Error('PrintingCapacityApp non è disponibile');
+                }
+                
+                manager = new PrintingCapacityApp();
+                log('✅ PrintingCapacityApp inizializzata con successo');
+                updateStatus('✅ Manager inizializzato e pronto', 'success');
+                
+                // Aggiungi valori di default per test
+                document.getElementById('gameMonth').value = '07';
+                document.getElementById('gameYear').value = '2025';
+                document.getElementById('gameHour').value = '14';
+                document.getElementById('printCapacity').value = '1000';
+                
+                document.getElementById('contractName').value = 'Contratto Test';
+                document.getElementById('contractQuantity').value = '500';
+                document.getElementById('contractMonth').value = '08';
+                document.getElementById('contractYear').value = '2025';
+                document.getElementById('contractPriority').value = 'normal';
+                
+                log('✅ Valori di default impostati');
+                
+                return true;
+                
+            } catch (error) {
+                log(`❌ Errore durante inizializzazione: ${error.message}`);
+                console.error('Errore completo:', error);
+                updateStatus(`❌ Errore: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        function checkStatus() {
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                updateStatus('❌ Manager non inizializzato', 'error');
+                return false;
+            }
+            
+            log('📊 Verifica status manager...');
+            log(`📋 Tipo: ${typeof manager}`);
+            log(`📋 Constructor: ${manager.constructor.name}`);
+            
+            // Verifica metodi principali
+            const methods = ['saveSettings', 'addContract', 'checkContractFeasibility'];
+            let allMethodsOk = true;
+            
+            methods.forEach(method => {
+                if (typeof manager[method] === 'function') {
+                    log(`✅ Metodo ${method} disponibile`);
+                } else {
+                    log(`❌ Metodo ${method} non disponibile`);
+                    allMethodsOk = false;
+                }
+            });
+            
+            if (allMethodsOk) {
+                updateStatus('✅ Manager verificato e tutti i metodi sono disponibili', 'success');
+                log('✅ Status check completato con successo');
+                return true;
+            } else {
+                updateStatus('❌ Manager ha dei metodi mancanti', 'error');
+                log('❌ Status check fallito');
+                return false;
+            }
+        }
+        
+        function testSaveSettings() {
+            log('💾 Test salvataggio impostazioni...');
+            
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return false;
+            }
+            
+            try {
+                // Test con i valori del form
+                const result = manager.saveSettings();
+                log('✅ Metodo saveSettings eseguito');
+                log(`📊 Risultato: ${result}`);
+                return true;
+                
+            } catch (error) {
+                log(`❌ Errore durante test saveSettings: ${error.message}`);
+                return false;
+            }
+        }
+        
+        function testCheckContract() {
+            log('🔍 Test controllo fattibilità...');
+            
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return false;
+            }
+            
+            try {
+                manager.checkContractFeasibility();
+                log('✅ Metodo checkContractFeasibility eseguito');
+                return true;
+                
+            } catch (error) {
+                log(`❌ Errore durante test checkContractFeasibility: ${error.message}`);
+                return false;
+            }
+        }
+        
+        function testAddContract() {
+            log('➕ Test aggiunta contratto...');
+            
+            if (!manager) {
+                log('❌ Manager non inizializzato');
+                return false;
+            }
+            
+            try {
+                manager.addContract();
+                log('✅ Metodo addContract eseguito');
+                return true;
+                
+            } catch (error) {
+                log(`❌ Errore durante test addContract: ${error.message}`);
+                return false;
+            }
+        }
+        
+        function testAll() {
+            log('🧪 Esecuzione test completi...');
+            
+            let testsRun = 0;
+            let testsPass = 0;
+            
+            // Test 1: Inizializzazione
+            testsRun++;
+            if (manager || initializeApp()) {
+                testsPass++;
+                log('✅ Test 1/4: Inizializzazione PASSATO');
+            } else {
+                log('❌ Test 1/4: Inizializzazione FALLITO');
+            }
+            
+            // Test 2: Status
+            testsRun++;
+            if (checkStatus()) {
+                testsPass++;
+                log('✅ Test 2/4: Status PASSATO');
+            } else {
+                log('❌ Test 2/4: Status FALLITO');
+            }
+            
+            // Test 3: Save Settings
+            testsRun++;
+            if (testSaveSettings()) {
+                testsPass++;
+                log('✅ Test 3/4: Save Settings PASSATO');
+            } else {
+                log('❌ Test 3/4: Save Settings FALLITO');
+            }
+            
+            // Test 4: Check Contract
+            testsRun++;
+            if (testCheckContract()) {
+                testsPass++;
+                log('✅ Test 4/4: Check Contract PASSATO');
+            } else {
+                log('❌ Test 4/4: Check Contract FALLITO');
+            }
+            
+            // Test 5: Add Contract
+            testsRun++;
+            if (testAddContract()) {
+                testsPass++;
+                log('✅ Test 5/5: Add Contract PASSATO');
+            } else {
+                log('❌ Test 5/5: Add Contract FALLITO');
+            }
+            
+            log(`🏁 Test completati: ${testsPass}/${testsRun} passati`);
+            
+            if (testsPass === testsRun) {
+                updateStatus(`🎉 Tutti i test passati! (${testsPass}/${testsRun})`, 'success');
+            } else {
+                updateStatus(`⚠️ ${testsPass}/${testsRun} test passati`, 'warning');
+            }
+        }
+        
+        // Inizializzazione automatica
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Pagina caricata');
+            
+            setTimeout(() => {
+                log('🔄 Inizializzazione automatica...');
+                initializeApp();
+                
+                setTimeout(() => {
+                    log('🧪 Esecuzione test automatici...');
+                    testAll();
+                }, 500);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

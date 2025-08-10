@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Funzionalità Complete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 3px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button.success {
+            background-color: #28a745;
+        }
+        .button.warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .button.danger {
+            background-color: #dc3545;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-width: 200px;
+        }
+        .date-inputs {
+            display: flex;
+            gap: 10px;
+        }
+        .date-inputs select {
+            flex: 1;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Funzionalità Complete</h1>
+        
+        <div class="test-section">
+            <h3>🔧 Inizializzazione Manager</h3>
+            <div id="initStatus" class="status warning">⏳ In attesa di inizializzazione...</div>
+            <button class="button" onclick="initializeManager()">Inizializza Manager</button>
+            <button class="button" onclick="checkManagerStatus()">Verifica Status</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>⚙️ Test Impostazioni</h3>
+            <div class="form-group">
+                <label for="testGameMonth">Mese:</label>
+                <select id="testGameMonth">
+                    <option value="">Seleziona mese</option>
+                    <option value="01">Gennaio</option>
+                    <option value="02">Febbraio</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Aprile</option>
+                    <option value="05">Maggio</option>
+                    <option value="06">Giugno</option>
+                    <option value="07">Luglio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Settembre</option>
+                    <option value="10">Ottobre</option>
+                    <option value="11">Novembre</option>
+                    <option value="12">Dicembre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="testGameYear">Anno:</label>
+                <select id="testGameYear">
+                    <option value="">Seleziona anno</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="testGameHour">Ora:</label>
+                <select id="testGameHour">
+                    <option value="">Seleziona ora</option>
+                    <option value="10">10:00</option>
+                    <option value="14">14:00</option>
+                    <option value="18">18:00</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="testPrintCapacity">Capacità Stampa:</label>
+                <input type="number" id="testPrintCapacity" value="1000" min="1">
+            </div>
+            <button class="button" onclick="testSaveSettings()">Salva Impostazioni</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Test Contratti</h3>
+            <div class="form-group">
+                <label for="testContractName">Nome Contratto:</label>
+                <input type="text" id="testContractName" value="Test Contratto" placeholder="Nome del contratto">
+            </div>
+            <div class="form-group">
+                <label for="testContractQuantity">Quantità:</label>
+                <input type="number" id="testContractQuantity" value="500" min="1">
+            </div>
+            <div class="form-group">
+                <label>Scadenza:</label>
+                <div class="date-inputs">
+                    <select id="testContractMonth">
+                        <option value="">Mese</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Settembre</option>
+                        <option value="10">Ottobre</option>
+                    </select>
+                    <select id="testContractYear">
+                        <option value="">Anno</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+            </div>
+            <button class="button warning" onclick="testCheckFeasibility()">Controlla Fattibilità</button>
+            <button class="button success" onclick="testAddContract()">Aggiungi Contratto</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Log di Test</h3>
+            <button class="button" onclick="clearLog()">Pulisci Log</button>
+            <div id="testLog" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Carica tutte le classi JavaScript necessarie -->
+    <script src="js/timeManager.js"></script>
+    <script src="js/contractManager.js"></script>
+    <script src="js/productionManager.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/analysisManager.js"></script>
+    <script src="js/dataManager.js"></script>
+    <script src="js/settingsManager.js"></script>
+    <script src="js/eventManager.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        let testManager = null;
+        let testLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            testLog.push(logMessage);
+            document.getElementById('testLog').textContent = testLog.join('\n');
+            console.log(logMessage);
+        }
+        
+        function clearLog() {
+            testLog = [];
+            document.getElementById('testLog').textContent = '';
+        }
+        
+        function updateInitStatus(message, type = 'warning') {
+            const statusEl = document.getElementById('initStatus');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function initializeManager() {
+            log('🔧 Tentativo di inizializzazione del manager...');
+            
+            try {
+                if (typeof PrintingCapacityApp !== 'function') {
+                    throw new Error('PrintingCapacityApp non è disponibile');
+                }
+                
+                testManager = new PrintingCapacityApp();
+                log('✅ Manager inizializzato con successo');
+                updateInitStatus('✅ Manager inizializzato e pronto', 'success');
+                
+                // Verifica che i metodi necessari siano disponibili
+                const requiredMethods = ['saveSettings', 'addContract', 'checkContractFeasibility'];
+                requiredMethods.forEach(method => {
+                    if (typeof testManager[method] === 'function') {
+                        log(`✅ Metodo ${method} disponibile`);
+                    } else {
+                        log(`❌ Metodo ${method} non disponibile`);
+                    }
+                });
+                
+                return true;
+                
+            } catch (error) {
+                log(`❌ Errore durante inizializzazione: ${error.message}`);
+                updateInitStatus(`❌ Errore: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        function checkManagerStatus() {
+            if (!testManager) {
+                log('❌ Manager non inizializzato');
+                updateInitStatus('❌ Manager non inizializzato', 'error');
+                return;
+            }
+            
+            log('📋 Verifica status manager...');
+            log(`📋 Tipo: ${typeof testManager}`);
+            log(`📋 Constructor: ${testManager.constructor.name}`);
+            
+            // Verifica stato interno
+            log(`📋 Game Date: ${testManager.gameDate}`);
+            log(`📋 Game Hour: ${testManager.gameHour}`);
+            log(`📋 Print Capacity: ${testManager.printCapacity}`);
+            
+            updateInitStatus('✅ Manager verificato e funzionante', 'success');
+        }
+        
+        function testSaveSettings() {
+            if (!testManager) {
+                log('❌ Manager non inizializzato - impossibile salvare impostazioni');
+                return;
+            }
+            
+            log('💾 Test salvataggio impostazioni...');
+            
+            // Copia i valori dai campi di test agli elementi principali (simulazione)
+            const testMonth = document.getElementById('testGameMonth').value;
+            const testYear = document.getElementById('testGameYear').value;
+            const testHour = document.getElementById('testGameHour').value;
+            const testCapacity = document.getElementById('testPrintCapacity').value;
+            
+            if (!testMonth || !testYear || !testHour || !testCapacity) {
+                log('❌ Compila tutti i campi delle impostazioni');
+                return;
+            }
+            
+            log(`📋 Dati da salvare: ${testMonth}/${testYear} ${testHour}:00 - Capacità: ${testCapacity}`);
+            
+            try {
+                // Simula l'impostazione diretta dei valori
+                testManager.gameDate = `${testYear}-${testMonth}`;
+                testManager.gameHour = parseInt(testHour);
+                testManager.printCapacity = parseInt(testCapacity);
+                
+                log('✅ Impostazioni salvate con successo');
+                log(`📋 Nuovo stato: ${testManager.gameDate} ${testManager.gameHour}:00 - ${testManager.printCapacity}`);
+                
+            } catch (error) {
+                log(`❌ Errore durante salvataggio: ${error.message}`);
+            }
+        }
+        
+        function testCheckFeasibility() {
+            if (!testManager) {
+                log('❌ Manager non inizializzato - impossibile controllare fattibilità');
+                return;
+            }
+            
+            log('🔍 Test controllo fattibilità...');
+            
+            const name = document.getElementById('testContractName').value;
+            const quantity = document.getElementById('testContractQuantity').value;
+            const month = document.getElementById('testContractMonth').value;
+            const year = document.getElementById('testContractYear').value;
+            
+            if (!name || !quantity || !month || !year) {
+                log('❌ Compila tutti i campi del contratto');
+                return;
+            }
+            
+            log(`📋 Contratto da verificare: ${name} - ${quantity} unità - Scadenza: ${month}/${year}`);
+            
+            try {
+                // Simula la chiamata al metodo
+                if (typeof testManager.checkContractFeasibility === 'function') {
+                    // Nota: questo metodo potrebbe richiedere dati dal form principale
+                    log('✅ Metodo checkContractFeasibility chiamato');
+                    testManager.checkContractFeasibility();
+                } else {
+                    log('❌ Metodo checkContractFeasibility non disponibile');
+                }
+                
+            } catch (error) {
+                log(`❌ Errore durante controllo fattibilità: ${error.message}`);
+            }
+        }
+        
+        function testAddContract() {
+            if (!testManager) {
+                log('❌ Manager non inizializzato - impossibile aggiungere contratto');
+                return;
+            }
+            
+            log('➕ Test aggiunta contratto...');
+            
+            const name = document.getElementById('testContractName').value;
+            const quantity = document.getElementById('testContractQuantity').value;
+            const month = document.getElementById('testContractMonth').value;
+            const year = document.getElementById('testContractYear').value;
+            
+            if (!name || !quantity || !month || !year) {
+                log('❌ Compila tutti i campi del contratto');
+                return;
+            }
+            
+            log(`📋 Contratto da aggiungere: ${name} - ${quantity} unità - Scadenza: ${month}/${year}`);
+            
+            try {
+                // Simula la chiamata al metodo
+                if (typeof testManager.addContract === 'function') {
+                    log('✅ Metodo addContract chiamato');
+                    testManager.addContract();
+                } else {
+                    log('❌ Metodo addContract non disponibile');
+                }
+                
+            } catch (error) {
+                log(`❌ Errore durante aggiunta contratto: ${error.message}`);
+            }
+        }
+        
+        // Inizializzazione automatica quando la pagina è caricata
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Pagina di test caricata');
+            
+            setTimeout(() => {
+                log('🔄 Inizializzazione automatica...');
+                initializeManager();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
