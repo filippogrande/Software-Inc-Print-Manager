@@ -27,3 +27,7 @@ jobs:
         run: |
           chmod +x ./build-and-push.sh
           ./build-and-push.sh
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE_REPOSITORY: ${{ secrets.IMAGE_REPOSITORY }}
