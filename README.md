@@ -26,19 +26,45 @@ Designed to optimize print capacity management and contract deadlines within the
 - **JSON import**: Load data from previous files
 - **Safe deletion**: Remove all data with confirmation
 
-## 🚀 How to Use
+## 🚀 Come usare con Docker
 
-### Quick Start
+### Avvio locale rapido
 
-1. **Start the server**:
-   ```bash
-   python3 server.py
-   ```
-2. **Open your browser** at: `http://localhost:8000`
-3. **Configure settings**:
-   - Game date (month/year)
-   - Maximum print capacity
-4. **Add contracts** and **view the analysis**
+1. **Build dell'immagine Docker**:
+
+```bash
+docker build -t filippogrande/printing-capacity .
+```
+
+2. **Avvia il container**:
+
+```bash
+docker run -p 8001:8001 filippogrande/printing-capacity
+```
+
+3. **Apri il browser** su: `http://localhost:8001`
+4. **Configura le impostazioni**:
+
+- Data di gioco (mese/anno)
+- Capacità di stampa massima
+
+5. **Aggiungi contratti** e **visualizza l'analisi**
+
+### Build e deploy automatico su Docker Hub
+
+Ad ogni push su GitHub (branch `new`), viene eseguita una build multi-piattaforma e pubblicata l'immagine su Docker Hub tramite GitHub Actions.
+
+**Secrets richiesti su GitHub:**
+
+- `DOCKER_USERNAME`: il tuo username Docker Hub
+- `DOCKER_PASSWORD`: un Access Token generato da Docker Hub (non la password!)
+
+**File coinvolti:**
+
+- `.github/workflows/docker-image.yml` → workflow di build e push automatico
+- `build-and-push.sh` → script per buildx multi-piattaforma
+
+L'immagine risultante sarà disponibile su: `docker pull filippogrande/printing-capacity:latest`
 
 ### Recommended Workflow
 
